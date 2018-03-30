@@ -44,6 +44,7 @@ public class LiteRpcInjectFactory implements IocEventListener {
             proxy.setRpcInject(rpcInject);
             proxy.setObject(obj);
             proxy.setLiteRpc(liteRpc);
+            proxy.setKlass(field.getType());
             Object t = Proxy.newProxyInstance(classLoader, new Class[] {field.getType()}, proxy);
             mirror.setValue(obj, field.getName(), t);
             proxy.afterInject();

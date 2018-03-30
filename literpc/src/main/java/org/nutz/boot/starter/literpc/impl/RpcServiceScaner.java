@@ -39,12 +39,14 @@ public class RpcServiceScaner {
                         obj = ioc.get(null, beanName);
                     if (log.isDebugEnabled())
                         log.debugf("add RPC Mapping [%s] -> [%s]", klass.getName(), obj.getClass().getName());
+                    RpcObjectInvoker objectInvoker = new RpcObjectInvoker();
                     for (Method method : klass.getMethods()) {
                         RpcInvoker invoker = new RpcInvoker();
                         invoker.setObj(obj);
                         invoker.setMethod(method);
-                        liteRpc.registerInovker(LiteRpc.getMethodSign(method), invoker);
+                        objectInvoker.invokers.put(LiteRpc.getMethodSign(method), invoker);
                     }
+                    liteRpc.registerInovker(klass.getName(), objectInvoker);
                 }
             }
             catch (Exception e) {

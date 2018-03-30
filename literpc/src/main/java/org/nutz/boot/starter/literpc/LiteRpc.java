@@ -1,15 +1,15 @@
 package org.nutz.boot.starter.literpc;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.nutz.boot.starter.literpc.api.RpcEndpoint;
 import org.nutz.boot.starter.literpc.api.RpcSerializer;
 import org.nutz.boot.starter.literpc.impl.RpcInvoker;
-import org.nutz.boot.starter.literpc.impl.endpoint.RpcEndpoint;
+import org.nutz.boot.starter.literpc.impl.RpcObjectInvoker;
 import org.nutz.boot.starter.loach.client.LoachClient;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -20,11 +20,11 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 @IocBean(create="init")
-public class LiteRpc implements LoachClient.UpdateListener {
+public class LiteRpc {
     
     private static final Log log = Logs.get();
     
-    protected static String RPC_REG_KEY = "literpc.v1";
+    public static String RPC_REG_KEY = "literpc.v1";
     
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -32,7 +32,7 @@ public class LiteRpc implements LoachClient.UpdateListener {
     /**
      * 持有所有的执行器
      */
-    protected Map<String, RpcInvoker> invokers = new ConcurrentHashMap<>();
+    protected Map<String, RpcObjectInvoker> invokers = new ConcurrentHashMap<>();
     
     /**
      * 方法签名对应的可用服务器列表
@@ -60,47 +60,31 @@ public class LiteRpc implements LoachClient.UpdateListener {
         }
     }
     
-    public RpcInvoker getInvoker(String methodSign) {
-        return invokers.get(methodSign);
+    public RpcInvoker getInvoker(String klassName, String methodSign) {
+        RpcObjectInvoker objectInvoker = invokers.get(klassName);
+        if (objectInvoker != null)
+            return objectInvoker.invokers.get(methodSign);
+        return null;
     }
     
-    public RpcInvoker registerInovker(String methodSign, RpcInvoker invoker) {
-        return invokers.put(methodSign, invoker);
+    public RpcObjectInvoker registerInovker(String klassName, RpcObjectInvoker objectInvoker) {
+        return invokers.put(klassName, objectInvoker);
     }
     
     public static String getMethodSign(Method method) {
-        return Lang.sha1(method.toGenericString());
+        return String.format("%s:%s", method.getName(), Lang.sha1(method.toGenericString()).substring(0, 8));
     }
     
     public void updateLoachRegInfo() {
-        LoachClient.EXT_REG_DATA.put(RPC_REG_KEY, new ArrayList<>(invokers.keySet()));
+        LoachClient.EXT_REG_DATA.put(RPC_REG_KEY, invokers);
     }
     
-    public List<NutMap> getServers(String methodSign) {
-        return this.services.get(methodSign);
+    public List<NutMap> getServers(String klassName, String methodSign) {
+        return this.services.get(klassName + ":" + methodSign);
     }
 
-    public void onUpdate(Map<String, List<NutMap>> services) {
-        if (services == null || services.isEmpty()) {
-            return; // fuck
-        }
-        Map<String, List<NutMap>> rpcMap = new HashMap<>();
-        for (List<NutMap> _se : services.values()) {
-            for (NutMap server : _se) {
-                List<String> rpcKeys = server.getList(RPC_REG_KEY, String.class);
-                if (rpcKeys == null || rpcKeys.isEmpty())
-                    continue;
-                for (String rpcKey : rpcKeys) {
-                    List<NutMap> servers = rpcMap.get(rpcKey);
-                    if (servers == null) {
-                        servers = new ArrayList<>();
-                        rpcMap.put(rpcKey, servers);
-                    }
-                    servers.add(server);
-                }
-            }
-        }
-        this.services = rpcMap;
+    public void setServices(Map<String, List<NutMap>> services) {
+        this.services = services;
     }
     
     public RpcSerializer getSerializer(String name) {

@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationHandler;
 
 import org.nutz.boot.starter.literpc.LiteRpc;
 import org.nutz.boot.starter.literpc.annotation.RpcInject;
+import org.nutz.boot.starter.literpc.api.RpcEndpoint;
 import org.nutz.boot.starter.literpc.api.RpcSerializer;
-import org.nutz.boot.starter.literpc.impl.endpoint.RpcEndpoint;
 import org.nutz.ioc.Ioc;
 import org.nutz.lang.Strings;
 
@@ -17,6 +17,7 @@ public abstract class AbstractRpcRefProxy implements InvocationHandler {
     protected Ioc ioc;
     protected Object object;
     protected LiteRpc liteRpc;
+    protected Class<?> klass;
     
     protected RpcEndpoint endpoint;
     
@@ -40,6 +41,10 @@ public abstract class AbstractRpcRefProxy implements InvocationHandler {
     
     public void setLiteRpc(LiteRpc liteRpc) {
         this.liteRpc = liteRpc;
+    }
+    
+    public void setKlass(Class<?> klass) {
+        this.klass = klass;
     }
     
     public void afterInject() {

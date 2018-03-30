@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.literpc.impl.endpoint;
+package org.nutz.boot.starter.literpc.impl.endpoint.http;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -59,6 +59,13 @@ public class HttpServletRpcEndpoint implements WebFilterFace, Filter {
             resp.sendError(400);
             return;
         }
+        String klassName = req.getHeader(HttpRpcEndpoint.KLASS_HEADER_NAME);
+        if (Strings.isBlank(klassName)) {
+            if (debug)
+                log.debug("miss http header " + HttpRpcEndpoint.KLASS_HEADER_NAME);
+            resp.sendError(400);
+            return;
+        }
         String scName = req.getHeader(HttpRpcEndpoint.SC_HEADER_NAME);
         if (Strings.isBlank(scName)) {
             if (debug)
@@ -74,11 +81,11 @@ public class HttpServletRpcEndpoint implements WebFilterFace, Filter {
             return;
         }
         // 本服务器是否支持这个method
-        RpcInvoker invoker = liteRpc.getInvoker(methodSign);
+        RpcInvoker invoker = liteRpc.getInvoker(klassName, methodSign);
         if (invoker == null) {
-            resp.setHeader("LiteRpc-Msg", "No such Method at this service methodSign="+methodSign);
+            resp.setHeader("LiteRpc-Msg", "no such method " + klassName + ":" +methodSign);
             if (debug)
-                log.debug("no such method methodSign=" + methodSign);
+                log.debugf("no such method %s:%s", klassName, methodSign);
             resp.sendError(404);
             return;
         }

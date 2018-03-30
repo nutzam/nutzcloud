@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.literpc.impl.endpoint;
+package org.nutz.boot.starter.literpc.impl.endpoint.http;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +14,7 @@ import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.util.HttpCookieStore;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.nutz.boot.starter.literpc.RpcException;
+import org.nutz.boot.starter.literpc.api.RpcEndpoint;
 import org.nutz.boot.starter.literpc.api.RpcReq;
 import org.nutz.boot.starter.literpc.api.RpcResp;
 import org.nutz.boot.starter.literpc.api.RpcSerializer;
@@ -25,6 +26,7 @@ import org.nutz.lang.util.NutMap;
 @IocBean(create = "init", depose = "depose")
 public class HttpRpcEndpoint implements RpcEndpoint {
 
+    public static String KLASS_HEADER_NAME = "LiteRpc-Klass";
     public static String METHOD_HEADER_NAME = "LiteRpc-Method";
     public static String SC_HEADER_NAME = "LiteRpc-Serializer";
     public static String ENDPOINT_URI = "/literpc/endpoint";
@@ -87,6 +89,7 @@ public class HttpRpcEndpoint implements RpcEndpoint {
         try {
             resp = client.newRequest(url)
                     .method(HttpMethod.POST)
+                    .header(KLASS_HEADER_NAME, rpcReq.klass.getName())
                     .header(METHOD_HEADER_NAME, rpcReq.methodSign)
                     .header(SC_HEADER_NAME, serializer.getName())
                     .content(new BytesContentProvider(bao.toByteArray()))

@@ -258,7 +258,7 @@ public class LoachClient extends NutRunner {
             String listURL = url + "/list";
             Request req = Request.create(listURL, METHOD.GET);
             req.getHeader().clear();
-            req.getHeader().set("If-Not-Match", lastListETag);
+            req.getHeader().set("If-None-Match", lastListETag);
             Response resp = Sender.create(req).setConnTimeout(1000).setTimeout(3000).send();
             if (resp.isOK()) {
                 serviceList = (Map<String, List<NutMap>>) Json.fromJson(NutMap.class, resp.getReader()).get("data");

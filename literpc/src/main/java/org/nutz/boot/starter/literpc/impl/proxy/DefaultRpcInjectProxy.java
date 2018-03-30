@@ -18,6 +18,7 @@ public class DefaultRpcInjectProxy extends AbstractRpcRefProxy {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 构建RpcReq
         RpcReq req = new RpcReq();
+        req.klass = klass;
         req.args = args;
         req.object = proxy;
         req.connectTimeout = rpcInect.connectTimeout() == -1 ? 1000 : rpcInect.connectTimeout();
@@ -25,7 +26,7 @@ public class DefaultRpcInjectProxy extends AbstractRpcRefProxy {
         req.method = method;
         req.methodSign = LiteRpc.getMethodSign(method);
         // 获取支持该方法的服务器信息
-        List<NutMap> servers = liteRpc.getServers(req.methodSign);
+        List<NutMap> servers = liteRpc.getServers(req.klass.getName(), req.methodSign);
         if (servers == null || servers.isEmpty()) {
             throw new RpcException("No server support -> [" + method + "]");
         }
