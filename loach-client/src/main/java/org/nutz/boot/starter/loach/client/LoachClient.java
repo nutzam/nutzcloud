@@ -160,6 +160,14 @@ public class LoachClient extends NutRunner {
                     regOk = true;
                     return true;
                 }
+                else if (re == null) {
+                    log.info("Reg Err, revc NULL");
+                    return false;
+                }
+                else {
+                    log.info("Reg Err " + re);
+                    return false;
+                }
             }
         }
         catch (Throwable e) {

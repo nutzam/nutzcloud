@@ -2,11 +2,12 @@ package io.nutz.cloud.demo.service;
 
 import java.util.List;
 
-import org.nutz.boot.starter.literpc.api.RpcService;
+import org.nutz.boot.starter.literpc.annotation.RpcService;
 
 import io.nutz.cloud.demo.bean.User;
 
-public interface UserService extends RpcService {
+@RpcService
+public interface UserService {
 
     List<User> list();
 

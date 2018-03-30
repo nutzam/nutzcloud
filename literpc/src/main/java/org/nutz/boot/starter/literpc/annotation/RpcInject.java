@@ -12,6 +12,8 @@ import org.nutz.boot.starter.literpc.impl.proxy.DefaultRpcInjectProxy;
 @Target({ElementType.FIELD})
 @Documented
 public @interface RpcInject {
+    
+    String name() default "";
 
     Class<? extends DefaultRpcInjectProxy> by() default DefaultRpcInjectProxy.class;
     
