@@ -87,6 +87,7 @@ public class UserModule {
         sw.stop();
         sb.append("预热耗时: ").append(sw.toString()).append(NL);
         sb.append("单个请求平均耗时: ").append(sw.getDuration()/1000.0).append(NL);
+        sb.append("QPS: ").append((int)(1000.0/sw.getDuration()*1000)).append(NL);
         
         
         sb.append("-----------------------").append(NL);
@@ -95,6 +96,7 @@ public class UserModule {
         sw.stop();
         sb.append("10线程执行1w次,耗时: ").append(sw.toString()).append(NL);
         sb.append("单个请求平均耗时: ").append(sw.getDuration()/10000.0).append(NL);
+        sb.append("QPS: ").append((int)(10000.0/sw.getDuration()*1000)).append(NL);
         
         sb.append("-----------------------").append(NL);
         sw = Stopwatch.begin();
@@ -102,6 +104,7 @@ public class UserModule {
         sw.stop();
         sb.append("25线程执行1w次,耗时: ").append(sw.toString()).append(NL);
         sb.append("单个请求平均耗时: ").append(sw.getDuration()/10000.0).append(NL);
+        sb.append("QPS: ").append((int)(10000.0/sw.getDuration()*1000)).append(NL);
         
         sb.append("-----------------------").append(NL);
         sw = Stopwatch.begin();
@@ -109,6 +112,7 @@ public class UserModule {
         sw.stop();
         sb.append("100线程执行1w次,耗时: ").append(sw.toString()).append(NL);
         sb.append("单个请求平均耗时: ").append(sw.getDuration()/20000.0).append(NL);
+        sb.append("QPS: ").append((int)(20000.0/sw.getDuration()*1000)).append(NL);
         
         sb.append("-----------------------").append(NL);
         sw = Stopwatch.begin();
@@ -116,6 +120,7 @@ public class UserModule {
         sw.stop();
         sb.append("200线程执行2w次,耗时: ").append(sw.toString()).append(NL);
         sb.append("单个请求平均耗时: ").append(sw.getDuration()/20000.0).append(NL);
+        sb.append("QPS: ").append((int)(20000.0/sw.getDuration()*1000)).append(NL);
         
         return sb.toString();
     }
