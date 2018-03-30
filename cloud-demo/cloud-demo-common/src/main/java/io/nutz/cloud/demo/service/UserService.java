@@ -15,4 +15,6 @@ public interface UserService extends RpcService {
     User add(String name, int age);
 
     void delete(int id);
+    
+    void ping();
 }

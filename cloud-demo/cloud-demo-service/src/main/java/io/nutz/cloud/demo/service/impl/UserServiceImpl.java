@@ -36,4 +36,7 @@ public class UserServiceImpl implements UserService {
         dao.clear(User.class, Cnd.where("id", "=", id));
     }
 
+    public void ping() {
+    }
+
 }
