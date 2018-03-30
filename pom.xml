@@ -14,6 +14,7 @@
 	</dependencies>
 	<modules>
 		<module>loach-client</module>
+		<module>literpc</module>
 	</modules>
 	<profiles>
 		<profile>
