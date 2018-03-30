@@ -20,3 +20,24 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/target/
+.settings/
+.classpath
+.project
+WebContent/WEB-INF/classes
+WebContent/META-INF/
+dump.rdb
+WebContent/apidocs/
+.idea
+*.iml
+ehcache.disk.store.dir
+build/
+.gradle/
+local.properties
+**/target/
+
+.gitignore
+dependency-reduced-pom.xml
+nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-urule/urule.repo
+**/bin/**
+.DS_Store
