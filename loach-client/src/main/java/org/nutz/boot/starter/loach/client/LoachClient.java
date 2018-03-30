@@ -74,7 +74,8 @@ public class LoachClient extends NutRunner {
         getLock().stop();
         if (updater != null)
             updater.getLock().stop();
-        es.shutdown();
+        if (es != null)
+            es.shutdown();
     }
 
     public void init() {
@@ -96,6 +97,7 @@ public class LoachClient extends NutRunner {
             es.submit(this);
         }
         if (conf.getBoolean("loach.updater.enable", true)) {
+            updateServiceList();
             updater = new NutRunner("loach.updater." + url) {
                 public long exec() throws Exception {
                     LoachClient.this.updateServiceList();
