@@ -50,9 +50,14 @@ public class RpcServiceScaner {
                 }
             }
             catch (Exception e) {
-                log.info("bad rpc object? skipe", e);
+                log.info("bad rpc object? skiped", e);
             }
         }
-        liteRpc.updateLoachRegInfo();
+        try {
+            liteRpc.updateLoachRegInfo();
+        }
+        catch (Throwable e) {
+            log.info("skip updateLoachRegInfo : " + e.getMessage());
+        }
     }
 }

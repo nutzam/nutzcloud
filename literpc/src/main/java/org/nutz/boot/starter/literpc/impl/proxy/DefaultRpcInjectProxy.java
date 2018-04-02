@@ -28,7 +28,7 @@ public class DefaultRpcInjectProxy extends AbstractRpcRefProxy {
         // 获取支持该方法的服务器信息
         List<NutMap> servers = liteRpc.getServers(req.klass.getName(), req.methodSign);
         if (servers == null || servers.isEmpty()) {
-            throw new RpcException("No server support -> [" + method + "]");
+            throw new RpcException("No server support : " + req.klass.getName() + "." + method.getName() + "(...)");
         }
         // 选一个,执行之
         NutMap server = servers.get((int)(AL.incrementAndGet() % servers.size()));
