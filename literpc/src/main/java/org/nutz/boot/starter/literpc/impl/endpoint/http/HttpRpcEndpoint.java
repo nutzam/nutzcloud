@@ -12,6 +12,7 @@ import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.util.BytesContentProvider;
 import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.util.HttpCookieStore;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.nutz.boot.starter.literpc.RpcException;
 import org.nutz.boot.starter.literpc.api.RpcEndpoint;
@@ -42,7 +43,7 @@ public class HttpRpcEndpoint implements RpcEndpoint {
     }
 
     public void init() throws Exception {
-        client = new HttpClient();
+        client = new HttpClient(new SslContextFactory(true));
         client.setFollowRedirects(false);
         client.setCookieStore(new HttpCookieStore.Empty());
 

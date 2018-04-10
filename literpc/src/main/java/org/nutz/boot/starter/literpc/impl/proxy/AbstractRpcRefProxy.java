@@ -18,40 +18,39 @@ public abstract class AbstractRpcRefProxy implements InvocationHandler {
     protected Object object;
     protected LiteRpc liteRpc;
     protected Class<?> klass;
-    
+
     protected RpcEndpoint endpoint;
-    
+
     protected RpcSerializer serializer;
 
     public void setField(Field field) {
         this.field = field;
     }
-    
+
     public void setRpcInject(RpcInject rpcInect) {
         this.rpcInect = rpcInect;
     }
-    
+
     public void setIoc(Ioc ioc) {
         this.ioc = ioc;
     }
-    
+
     public void setObject(Object object) {
         this.object = object;
     }
-    
+
     public void setLiteRpc(LiteRpc liteRpc) {
         this.liteRpc = liteRpc;
     }
-    
+
     public void setKlass(Class<?> klass) {
         this.klass = klass;
     }
-    
+
     public void afterInject() {
         endpoint = liteRpc.getEndpoint(Strings.sBlank(rpcInect.endpointType(), "http"));
         serializer = liteRpc.getSerializer(Strings.sBlank(rpcInect.serializer(), "jdk"));
     }
-    
-    public void beforeDepose() {
-    }
+
+    public void beforeDepose() {}
 }

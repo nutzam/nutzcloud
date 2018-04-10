@@ -20,7 +20,6 @@ import org.nutz.boot.starter.literpc.LiteRpc;
 import org.nutz.boot.starter.literpc.api.RpcResp;
 import org.nutz.boot.starter.literpc.api.RpcSerializer;
 import org.nutz.boot.starter.literpc.impl.RpcInvoker;
-import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -32,9 +31,6 @@ import org.nutz.log.Logs;
 public class HttpServletRpcEndpoint implements WebFilterFace, Filter {
     
     private static final Log log = Logs.get();
-    
-    @Inject("refer:$ioc")
-    protected Ioc ioc;
     
     @Inject
     protected PropertiesProxy conf;

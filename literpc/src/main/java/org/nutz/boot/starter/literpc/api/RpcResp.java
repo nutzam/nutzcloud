@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class RpcResp implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     public Throwable err;
     public Object returnValue;
-    
-    public RpcResp() {
-    }
+
+    protected long uuidMost, uuidLeast;
+
+    public RpcResp() {}
 
     public RpcResp(Object returnValue) {
         this.returnValue = returnValue;

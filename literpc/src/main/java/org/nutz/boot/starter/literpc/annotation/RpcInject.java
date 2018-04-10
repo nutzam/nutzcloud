@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.nutz.boot.starter.literpc.impl.proxy.AbstractRpcRefProxy;
 import org.nutz.boot.starter.literpc.impl.proxy.DefaultRpcInjectProxy;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,7 +16,7 @@ public @interface RpcInject {
     
     String name() default "";
 
-    Class<? extends DefaultRpcInjectProxy> by() default DefaultRpcInjectProxy.class;
+    Class<? extends AbstractRpcRefProxy> by() default DefaultRpcInjectProxy.class;
     
     int connectTimeout() default -1;
     

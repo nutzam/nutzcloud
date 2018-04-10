@@ -31,7 +31,12 @@ public class DefaultRpcInjectProxy extends AbstractRpcRefProxy {
             throw new RpcException("No server support : " + req.klass.getName() + "." + method.getName() + "(...)");
         }
         // 选一个,执行之
-        NutMap server = servers.get((int)(AL.incrementAndGet() % servers.size()));
+        NutMap server;
+        if (servers.size() == 1) {
+            server = servers.get(0);
+        } else {
+            server = servers.get((int) (AL.incrementAndGet() % servers.size()));
+        }
         RpcResp resp = endpoint.send(req, server, serializer);
         if (resp.err == null)
             return resp.returnValue;
