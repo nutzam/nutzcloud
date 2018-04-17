@@ -30,6 +30,7 @@ import org.nutz.boot.starter.literpc.impl.endpoint.tio.LiteRpcPacket;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.lang.Streams;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -84,7 +85,8 @@ public class TcpRpcEndpoint implements RpcEndpoint {
             return new RpcResp(e);
         }
         byte[] body = out.toByteArray();
-        // log.debug(Lang.fixedHexString(body));
+        if (debug)
+            log.debug("send " + Lang.fixedHexString(body));
         SocketHolder holder;
         InetSocketAddress addr = new InetSocketAddress(server.getString("vip"), server.getInt("port"));
         try {
@@ -103,6 +105,8 @@ public class TcpRpcEndpoint implements RpcEndpoint {
 
             int size = holder.dis.readInt(); // skip bodySize
             byte version = (byte) holder.dis.read();// skip VERSION
+            if (debug)
+                log.debug("version="+version);
             byte opType = holder.dis.readByte();
             if (opType != OP_RPC_RESP) {
                 holder.socket.close();
@@ -114,7 +118,8 @@ public class TcpRpcEndpoint implements RpcEndpoint {
             int respType = holder.dis.read();
             body = new byte[size - 2 - 1 - 16];
             holder.dis.readFully(body, 0, body.length);
-            // log.debug(Lang.fixedHexString(body));
+            if (debug)
+                log.debug("read " + Lang.fixedHexString(body));
             switch (respType) {
             case 0:
                 return new RpcResp();
@@ -146,7 +151,8 @@ public class TcpRpcEndpoint implements RpcEndpoint {
 
     public class RpcSocketFactory implements KeyedPooledObjectFactory<SocketAddress, SocketHolder> {
 
-        @Override
+        @SuppressWarnings("resource")
+		@Override
         public PooledObject<SocketHolder> makeObject(SocketAddress addr) throws Exception {
             SocketHolder socketHolder = new SocketHolder();
             Socket socket = new Socket();
