@@ -10,6 +10,7 @@ import org.nutz.boot.starter.literpc.annotation.RpcInject;
 import org.nutz.boot.starter.literpc.impl.proxy.AbstractRpcRefProxy;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.IocEventListener;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Mirror;
@@ -23,6 +24,9 @@ public class LiteRpcInjectFactory implements IocEventListener {
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
+    
+    @Inject
+    protected PropertiesProxy conf;
     
     @Inject
     protected LiteRpc liteRpc;
@@ -45,6 +49,7 @@ public class LiteRpcInjectFactory implements IocEventListener {
             proxy.setObject(obj);
             proxy.setLiteRpc(liteRpc);
             proxy.setKlass(field.getType());
+            proxy.setConf(conf);
             Object t = Proxy.newProxyInstance(classLoader, new Class[] {field.getType()}, proxy);
             mirror.setValue(obj, field.getName(), t);
             proxy.afterInject();

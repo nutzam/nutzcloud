@@ -8,6 +8,7 @@ import org.nutz.boot.starter.literpc.annotation.RpcInject;
 import org.nutz.boot.starter.literpc.api.RpcEndpoint;
 import org.nutz.boot.starter.literpc.api.RpcSerializer;
 import org.nutz.ioc.Ioc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Strings;
 
 public abstract class AbstractRpcRefProxy implements InvocationHandler {
@@ -18,6 +19,7 @@ public abstract class AbstractRpcRefProxy implements InvocationHandler {
     protected Object object;
     protected LiteRpc liteRpc;
     protected Class<?> klass;
+    protected PropertiesProxy conf;
 
     protected RpcEndpoint endpoint;
 
@@ -46,10 +48,14 @@ public abstract class AbstractRpcRefProxy implements InvocationHandler {
     public void setKlass(Class<?> klass) {
         this.klass = klass;
     }
+    
+    public void setConf(PropertiesProxy conf) {
+		this.conf = conf;
+	}
 
     public void afterInject() {
-        endpoint = liteRpc.getEndpoint(Strings.sBlank(rpcInect.endpointType(), "http"));
-        serializer = liteRpc.getSerializer(Strings.sBlank(rpcInect.serializer(), "jdk"));
+        endpoint = liteRpc.getEndpoint(Strings.sBlank(rpcInect.endpointType(), conf.get("literpc.endpoint.type", "http")));
+        serializer = liteRpc.getSerializer(Strings.sBlank(rpcInect.serializer(), conf.get("literpc.serializer.type", "jdk")));
     }
 
     public void beforeDepose() {}
