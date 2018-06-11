@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nutz</groupId>
 	<artifactId>nutzcloud-parent</artifactId>
-	<version>2.2-SNAPSHOT</version>
+	<version>2.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<nutzboot.version>2.2-SNAPSHOT</nutzboot.version>
+		<nutzboot.version>2.3-SNAPSHOT</nutzboot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
