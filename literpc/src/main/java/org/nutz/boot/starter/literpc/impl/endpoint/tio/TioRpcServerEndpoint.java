@@ -19,6 +19,7 @@ import org.nutz.log.Logs;
 import org.tio.core.Aio;
 import org.tio.core.ChannelContext;
 import org.tio.core.GroupContext;
+import org.tio.core.Tio;
 import org.tio.core.exception.AioDecodeException;
 import org.tio.core.intf.Packet;
 import org.tio.server.intf.ServerAioHandler;
@@ -41,8 +42,7 @@ public class TioRpcServerEndpoint implements ServerAioHandler {
     }
 
     @Override
-    public Packet decode(ByteBuffer buffer, ChannelContext channelContext) throws AioDecodeException {
-        int readableLength = buffer.limit() - buffer.position();
+    public Packet decode(ByteBuffer buffer, int limit, int position, int readableLength, ChannelContext channelContext) throws AioDecodeException {
         if (readableLength < HEADER_LENGHT)
             return null;
         // 读取消息体的长度
@@ -159,6 +159,6 @@ public class TioRpcServerEndpoint implements ServerAioHandler {
         rpcPacket.body = out.toByteArray();
         // log.debug(Lang.fixedHexString(rpcPacket.body));
         rpcPacket.opType = OP_RPC_RESP;
-        Aio.send(channelContext, rpcPacket);
+        Tio.send(channelContext, rpcPacket);
     }
 }

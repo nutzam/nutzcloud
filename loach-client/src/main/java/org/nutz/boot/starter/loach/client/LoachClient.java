@@ -183,7 +183,7 @@ public class LoachClient extends NutRunner {
                 log.debug("Ping URL=" + pingURL);
             Request req = Request.create(pingURL, METHOD.GET);
             req.getHeader().clear();
-            req.getHeader().set("If-Not-Match", lastPingETag);
+            req.getHeader().set("If-None-Match", lastPingETag);
             Response resp = Sender.create(req, conf.getInt("loach.client.ping.timeout", 1000)).setConnTimeout(1000).send();
             String cnt = resp.getContent();
             if (isDebug())
