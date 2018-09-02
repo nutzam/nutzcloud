@@ -1,6 +1,10 @@
 package org.nutz.boot.starter.literpc.impl.endpoint.tio;
 
-import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.*;
+import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.HEADER_LENGHT;
+import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.OP_PING;
+import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.OP_RPC_REQ;
+import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.OP_RPC_RESP;
+import static org.nutz.boot.starter.literpc.impl.endpoint.tcp.LiteRpcTcpValues.VERSION;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,7 +20,6 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.tio.core.Aio;
 import org.tio.core.ChannelContext;
 import org.tio.core.GroupContext;
 import org.tio.core.Tio;
