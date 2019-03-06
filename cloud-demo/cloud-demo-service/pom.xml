@@ -32,16 +32,16 @@
 		<dependency>
 			<groupId>io.nutz.cloud.demo</groupId>
 			<artifactId>cloud-demo-common</artifactId>
-			<version>2.2-SNAPSHOT</version>
+			<version>2.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nutz.cloud</groupId>
 			<artifactId>loach-client</artifactId>
-			<version>2.2-SNAPSHOT</version>
+			<version>2.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutzboot-starter-tio</artifactId>
+			<artifactId>nutzboot-starter-jetty</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

@@ -30,7 +30,7 @@ public class UserModule {
     
     private static final Log log = Logs.get();
 
-    @RpcInject(endpointType="tcp")
+    @RpcInject(endpointType="http")
     protected UserService userService;
 
     @At

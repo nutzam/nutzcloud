@@ -12,13 +12,13 @@
 		<dependency>
 			<groupId>org.nutz.cloud</groupId>
 			<artifactId>loach-client</artifactId>
-			<version>2.2-SNAPSHOT</version>
+			<version>2.3-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-client</artifactId>
-			<version>9.4.9.v20180320</version>
+			<version>9.4.14.v20181114</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
